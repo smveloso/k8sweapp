@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: k8swebapp
+  name: k8swebapp
+  namespace: k8swebapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8swebapp
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: k8swebapp
+    spec:
+      containers:
+      - image: smveloso/k8swebapp:latest
+        name: k8swebapp
+        resources: {}
+    env:
+      - name: MY_NODE_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: spec.nodeName
+      - name: MY_POD_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.name

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -15,6 +16,8 @@ func main() {
 
 type Information struct {
 	XFoo string
+	NODE string
+	POD  string
 }
 
 //
@@ -71,6 +74,16 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getInformation() (Information, error) {
-	return Information{XFoo: "foobar"}, nil
+func getInformation() (*Information, error) {
+	info := new(Information)
+
+	nodeName, ok := os.LookupEnv("MY_NODE_NAME")
+
+	if ok {
+		info.NODE = nodeName
+	} else {
+		info.NODE = "please define MY_NODE_NAME using downward api"
+	}
+
+	return info, nil
 }
