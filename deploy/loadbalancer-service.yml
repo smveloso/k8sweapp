@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: k8swebapp-lb
+  name: k8swebapp-lb
+  namespace: k8swebapp
+spec:
+  ports:
+  - name: 80-8085
+    port: 80
+    protocol: TCP
+    targetPort: 8085
+  selector:
+    app: k8swebapp
+  type: LoadBalancer
+  loadBalancerIP: 10.100.200.50
+  externalTrafficPolicy: Local
+status:
+  loadBalancer: {}
